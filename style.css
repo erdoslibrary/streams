@@ -79,7 +79,8 @@ body {
 /* Left Panel: Header + Bag */
 .game-left {
     flex: 1;
-    height: 100%;
+    height: auto;
+    /* Allow shrink-wrap for vertical centering */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -104,7 +105,8 @@ body {
 /* Right Panel: Dashboard */
 .game-right {
     flex: 1;
-    height: 100%;
+    height: auto;
+    /* Allow shrink-wrap */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,10 +121,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    height: 100%;
-    /* Fill panel */
-    max-height: 700px;
-    /* Cap height */
+    height: 600px;
+    /* Fixed height for consistency */
+    max-height: 80vh;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     position: relative;
 }
@@ -150,6 +151,75 @@ body {
 
 .history-panel {
     flex: 1;
+
+    /* Tiles (Rice Cakes) */
+    .tile,
+    .mini-tile {
+        font-family: 'DotGothic16', sans-serif;
+        border-radius: 50%;
+        /* Round Rice Cake shape */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        color: var(--text-brown);
+        border: 3px solid var(--text-brown);
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+        position: relative;
+        background-color: var(--tile-white);
+        /* Default fallback */
+    }
+
+    /* Shine effect on rice cake */
+    .tile::after,
+    .mini-tile::after {
+        content: '';
+        position: absolute;
+        top: 15%;
+        left: 20%;
+        width: 25%;
+        height: 15%;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tile {
+        width: 90px;
+        height: 90px;
+        font-size: 2.5rem;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .tile.hidden {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    /* Tile Variants */
+    .tile-white {
+        background-color: var(--tile-white);
+    }
+
+    .tile-pink {
+        background-color: var(--tile-pink);
+    }
+
+    .tile-green {
+        background-color: var(--tile-green);
+    }
+
+    .tile-gold {
+        background-color: var(--tile-gold);
+        border-color: #B45309;
+        color: #78350F;
+    }
+
+    .mini-tile {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -187,11 +257,143 @@ body {
 /* Character & Bag adjustments for split view */
 .character-area {
     position: absolute;
-    left: 0;
-    bottom: 20%;
+    left: 10px;
+    /* Shift slightly right to not be off-screen */
+    top: 50%;
+    /* Center vertically relative to bag area */
+    transform: translateY(-50%);
+    /* Center it */
     z-index: 1;
-    transform: translateX(-50%);
-    /* Move rabbit slightly left of bag */
+    /* Removed bottom positioning to avoid top cut-off */
+}
+
+.rabbit-img {
+    width: 130px;
+    /* Slightly smaller to fit better */
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.1));
+    animation: breath 3s infinite ease-in-out;
+}
+
+/* CSS Drawn Lucky Bag */
+.lucky-bag {
+    width: 200px;
+    height: 180px;
+    position: relative;
+    z-index: 2;
+    /* Ensure it's above other things */
+}
+
+.bag-area {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.bag-body {
+    width: 180px;
+    height: 140px;
+    background-color: var(--bag-red);
+    border-radius: 40% 40% 45% 45% / 60% 60% 40% 40%;
+    /* Organic bag shape */
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    border: 4px solid var(--text-brown);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.bag-symbol {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 3rem;
+    color: var(--accent-gold);
+    text-shadow: 2px 2px 0 var(--text-brown);
+}
+
+.bag-top {
+    width: 100px;
+    height: 40px;
+    background-color: var(--bag-red);
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    border-radius: 50% 50% 10% 10%;
+    border: 4px solid var(--text-brown);
+    z-index: -1;
+}
+
+.bag-string-left,
+.bag-string-right {
+    width: 60px;
+    height: 60px;
+    border: 6px solid var(--accent-gold);
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    z-index: 5;
+    /* Create knot look */
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+
+.bag-string-left {
+    left: 20px;
+    transform: rotate(45deg);
+}
+
+.bag-string-right {
+    right: 20px;
+    transform: rotate(135deg);
+}
+
+.click-hint {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 700;
+    color: var(--text-brown);
+    animation: bounce 1s infinite;
+}
+
+/* Animations */
+@keyframes squeeze {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.15, 0.85);
+    }
+
+    50% {
+        transform: scale(0.95, 1.05);
+    }
+
+    70% {
+        transform: scale(1.05, 0.95);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+.squeeze-anim .lucky-bag {
+    animation: squeeze 0.4s ease-out;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 /* Mobile Responsive - Stack Vertical */
