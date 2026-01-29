@@ -1,49 +1,69 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streams - Board Game</title>
+    <title>숲속 떡토끼의 꿀떡 창고</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- DotGothic16 for Pixel sensation, Gaegu for handwritten feel if needed -->
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <main class="game-container">
-        <section class="draw-area">
-            <header>
-                <h1>STREAMS</h1>
-                <p>Tile Draw</p>
-            </header>
-            
-            <div class="bag-container" id="bagBtn">
-                <div class="bag-icon">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 10V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V10M20 10V20C20 21.1046 19.1046 22 18 22H6C4.89543 22 4 21.1046 4 20V10M20 10H4M16 4V2H8V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <div class="instruction">Tap to Draw</div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <main class="game-wrapper">
+        <header class="game-header">
+            <h1 class="pixel-title">숲속 떡토끼의<br>꿀떡 창고</h1>
+            <div class="count-badge">
+                <span id="remainingCount">🍡 40/40</span>
+            </div>
+        </header>
+
+        <section class="center-stage">
+            <div class="character-area">
+                <img src="images/cute_rabbit.webp" alt="Cute Rabbit" class="rabbit-img" id="rabbit">
             </div>
 
-            <div class="current-tile-display" id="currentTileParams">
-                <div class="tile hidden" id="currentTile">?</div>
-                <div class="shake-message hidden" id="shakeMsg">Shaking...</div>
-            </div>
-            
-            <div class="controls">
-                <div class="status-badge" id="remainingCount">Remaining: 40</div>
-                <button class="reset-btn" id="resetBtn">Reset Game</button>
+            <div class="bag-area" id="bagBtn">
+                <div class="lucky-bag">
+                    <div class="bag-body">
+                        <div class="bag-crease"></div>
+                        <div class="bag-symbol">福</div>
+                    </div>
+                    <div class="bag-neck"></div>
+                    <div class="bag-top"></div>
+                    <div class="bag-string-left"></div>
+                    <div class="bag-string-right"></div>
+                </div>
+                <div class="click-hint">꾸욱 누르기!</div>
             </div>
         </section>
 
-        <aside class="history-sidebar">
-            <h2>History</h2>
-            <div class="history-grid" id="historyGrid">
-                <!-- Drawn tiles will populate here -->
+        <section class="bottom-dashboard">
+            <div class="result-panel">
+                <h3>방금 뽑은 떡</h3>
+                <div class="big-tile-slot">
+                    <div class="tile hidden" id="currentTile">?</div>
+                </div>
             </div>
-        </aside>
+
+            <div class="history-panel">
+                <h3>모은 떡 접시</h3>
+                <div class="history-track" id="historyGrid">
+                    <!-- History tiles go here -->
+                </div>
+            </div>
+        </section>
+
+        <button id="resetBtn" class="reset-link">창고 정리하기 (Reset)</button>
     </main>
+
     <script src="script.js"></script>
 </body>
+
 </html>

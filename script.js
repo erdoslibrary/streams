@@ -2,14 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Game State
     let bag = [];
     let isDrawing = false;
-    
+
     // DOM Elements
     const bagBtn = document.getElementById('bagBtn');
     const resetBtn = document.getElementById('resetBtn');
     const currentTileEl = document.getElementById('currentTile');
-    const shakeMsgEl = document.getElementById('shakeMsg');
     const remainingInfoEl = document.getElementById('remainingCount');
     const historyGrid = document.getElementById('historyGrid');
+    const rabbitImg = document.getElementById('rabbit');
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const ctx = confettiCanvas.getContext('2d');
+
+    // Resize canvas
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+    });
 
     // Initialize Game
     initGame();
@@ -17,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     bagBtn.addEventListener('click', handleDrawRequest);
     resetBtn.addEventListener('click', () => {
-        if(confirm('Restart game?')) {
+        if (confirm('창고를 정리하고 처음부터 다시 시작할까요?')) {
             initGame();
         }
     });
@@ -25,35 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         bag = generateTiles();
         isDrawing = false;
-        
+
         // Clear UI
         historyGrid.innerHTML = '';
-        currentTileEl.classList.add('hidden');
-        shakeMsgEl.classList.add('hidden');
+        currentTileEl.className = 'tile hidden';
+        currentTileEl.textContent = '?';
         updateRemainingCount();
-        
-        // Remove any residual animation classes
-        bagBtn.classList.remove('shaking');
     }
 
     function generateTiles() {
         const tiles = [];
-        
         // 1-10: 1 each
         for (let i = 1; i <= 10; i++) tiles.push(i);
-        
         // 11-19: 2 each
-        for (let i = 11; i <= 19; i++) {
-            tiles.push(i);
-            tiles.push(i);
-        }
-        
+        for (let i = 11; i <= 19; i++) { tiles.push(i); tiles.push(i); }
         // 20-30: 1 each
         for (let i = 20; i <= 30; i++) tiles.push(i);
-        
-        // Star (represented as '★')
+        // Star
         tiles.push('★');
-        
+
         return shuffle(tiles);
     }
 
@@ -71,75 +71,110 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDrawRequest() {
         if (isDrawing) return;
         if (bag.length === 0) {
-            alert('Game Over! All tiles have been drawn.');
+            alert('꿀떡이 다 떨어졌어요!');
             return;
         }
 
         isDrawing = true;
-        
-        // hide old result immediately
-        currentTileEl.classList.add('hidden');
-        shakeMsgEl.classList.remove('hidden');
 
-        // Start Shake Animation
-        bagBtn.classList.add('shaking');
+        // Squeeze Animation
+        bagBtn.classList.add('squeeze-anim');
 
-        // Wait for animation (e.g., 600ms)
+        // Rabbit Reaction (Jump/Twitch)
+        rabbitImg.style.transform = "scale(1.1) translateY(-10px)";
+        setTimeout(() => rabbitImg.style.transform = "scale(1) translateY(0)", 200);
+
+        // Delay for animation
         setTimeout(() => {
             performDraw();
-        }, 600);
+            bagBtn.classList.remove('squeeze-anim');
+        }, 300);
     }
 
     function performDraw() {
-        bagBtn.classList.remove('shaking');
-        shakeMsgEl.classList.add('hidden');
-        
-        const drawnTile = bag.pop(); // Remove from end (it's shuffled)
-        
+        const drawnTile = bag.pop();
+
         displayTile(drawnTile);
         addToHistory(drawnTile);
         updateRemainingCount();
-        
+        triggerConfetti(); // 🎉
+
         isDrawing = false;
     }
 
+    function getTileColorClass(value) {
+        if (value === '★') return 'tile-gold';
+        if (value >= 1 && value <= 10) return 'tile-white';
+        if (value >= 11 && value <= 19) return 'tile-pink';
+        if (value >= 20 && value <= 30) return 'tile-green';
+        return 'tile-white';
+    }
+
     function displayTile(value) {
+        const colorClass = getTileColorClass(value);
+        currentTileEl.className = `tile ${colorClass}`; // Reset classes, add specific one
         currentTileEl.textContent = value;
+
+        // Re-trigger animation
         currentTileEl.classList.remove('hidden');
-        
-        // Handle star logic if needed for styles
-        if (value === '★') {
-            currentTileEl.classList.add('is-star');
-        } else {
-            currentTileEl.classList.remove('is-star');
-        }
+
+        // Pop effect via CSS transition is automatic if we remove hidden
+        // To enforce re-play if needed, we could toggle a class, but simple removal works with transition.
     }
 
     function addToHistory(value) {
         const miniTile = document.createElement('div');
-        miniTile.className = 'mini-tile';
+        miniTile.className = `mini-tile ${getTileColorClass(value)}`;
         miniTile.textContent = value;
-        if (value === '★') {
-            miniTile.classList.add('is-star');
-        }
-        
-        // Prepend to show newest first? Or append? 
-        // "Stacked" usually implies piling up. Let's append for chronological order, or prepend for "stack".
-        // The user said "차곡차곡 쌓여서" (stacked up). Usually implies a pile. 
-        // Let's use PREPEND so the newest is at the top/first, so it's easily visible? 
-        // Actually, for a board game tracking, seeing the *sequence* is often left-to-right.
-        // Let's just append (normal flow) but ensure the grid handles it well. 
-        // Wait, "stacked up" could mean a visual stack. 
-        // I will use `prepend` so the most recent is the first item in the grid, easiest to check.
-        // On second thought, people marking their sheets usually want the full list visible.
-        // I'll stick to `appendChild` (Left -> Right, Top -> Bottom) as it matches reading order.
+
+        // Append
         historyGrid.appendChild(miniTile);
-        
-        // Auto-scroll to bottom
         historyGrid.scrollTop = historyGrid.scrollHeight;
     }
 
     function updateRemainingCount() {
-        remainingInfoEl.textContent = `Remaining: ${bag.length}`;
+        remainingInfoEl.textContent = `🍡 ${bag.length} / 40`;
+    }
+
+    // --- Simple Confetti System ---
+    const particles = [];
+    const colors = ['#FF6B6B', '#FFD93D', '#A8E6CF', '#FFB7B2', '#FFF'];
+
+    function triggerConfetti() {
+        // Spawn 30 particles from center
+        for (let i = 0; i < 30; i++) {
+            particles.push({
+                x: window.innerWidth / 2,
+                y: window.innerHeight / 2,
+                vx: (Math.random() - 0.5) * 10,
+                vy: (Math.random() - 1) * 10 - 5, // Upward burst
+                size: Math.random() * 8 + 4, // chunky pixel confetti
+                color: colors[Math.floor(Math.random() * colors.length)],
+                life: 100
+            });
+        }
+        requestAnimationFrame(updateConfetti);
+    }
+
+    function updateConfetti() {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+        for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.5; // Gravity
+            p.life--;
+
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.size, p.size); // Square pixels
+        }
+
+        // Remove dead particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+            if (particles[i].life <= 0) particles.splice(i, 1);
+        }
+
+        if (particles.length > 0) requestAnimationFrame(updateConfetti);
     }
 });
