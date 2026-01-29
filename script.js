@@ -141,14 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const colors = ['#FF6B6B', '#FFD93D', '#A8E6CF', '#FFB7B2', '#FFF'];
 
     function triggerConfetti() {
-        // Spawn 30 particles from center
+        // Get bag position
+        const bagRect = bagBtn.getBoundingClientRect();
+        const spawnX = bagRect.left + (bagRect.width / 2);
+        const spawnY = bagRect.top; // Spawn from top of bag (meaning "above" meant emanating from top)
+
+        // Spawn 30 particles
         for (let i = 0; i < 30; i++) {
             particles.push({
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
+                x: spawnX,
+                y: spawnY,
                 vx: (Math.random() - 0.5) * 10,
-                vy: (Math.random() - 1) * 10 - 5, // Upward burst
-                size: Math.random() * 8 + 4, // chunky pixel confetti
+                vy: (Math.random() - 1) * 12 - 8, // Stronger upward burst
+                size: Math.random() * 8 + 4,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 life: 100
             });
