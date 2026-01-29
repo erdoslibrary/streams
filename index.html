@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streams - Board Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="game-container">
+        <section class="draw-area">
+            <header>
+                <h1>STREAMS</h1>
+                <p>Tile Draw</p>
+            </header>
+            
+            <div class="bag-container" id="bagBtn">
+                <div class="bag-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 10V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V10M20 10V20C20 21.1046 19.1046 22 18 22H6C4.89543 22 4 21.1046 4 20V10M20 10H4M16 4V2H8V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="instruction">Tap to Draw</div>
+            </div>
+
+            <div class="current-tile-display" id="currentTileParams">
+                <div class="tile hidden" id="currentTile">?</div>
+                <div class="shake-message hidden" id="shakeMsg">Shaking...</div>
+            </div>
+            
+            <div class="controls">
+                <div class="status-badge" id="remainingCount">Remaining: 40</div>
+                <button class="reset-btn" id="resetBtn">Reset Game</button>
+            </div>
+        </section>
+
+        <aside class="history-sidebar">
+            <h2>History</h2>
+            <div class="history-grid" id="historyGrid">
+                <!-- Drawn tiles will populate here -->
+            </div>
+        </aside>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
