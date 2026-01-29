@@ -32,6 +32,7 @@ body {
     /* Center the wrapper */
     justify-content: center;
     align-items: center;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><text y="20" font-size="20">🥕</text></svg>'), auto;
 
     /* Pixel Art Background Pattern */
     background-image:
@@ -444,5 +445,86 @@ body {
     .character-area {
         left: 10%;
         transform: none;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background-color: var(--content-cream);
+    padding: 3rem;
+    border-radius: 30px;
+    border: 5px solid var(--text-brown);
+    text-align: center;
+    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.2);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal h2 {
+    font-size: 2rem;
+    color: var(--text-brown);
+    margin-bottom: 1rem;
+    font-family: 'DotGothic16', sans-serif;
+}
+
+.modal-score {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--bag-red);
+    margin: 2rem 0;
+}
+
+.modal-btn {
+    background-color: var(--bag-red);
+    color: #FFF;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    font-family: 'Gaegu', cursive;
+    cursor: pointer;
+    border: 3px solid var(--text-brown);
+    box-shadow: 0 5px 0 var(--text-brown);
+    transition: transform 0.1s;
+}
+
+.modal-btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--text-brown);
+}
+
+.modal-btn:active {
+    transform: translateY(5px);
+    box-shadow: none;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }

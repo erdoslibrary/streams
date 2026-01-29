@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>숲속 떡토끼의 꿀떡 창고</title>
+    <link rel="icon" href="images/cute_rabbit.webp" type="image/webp">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,6 +69,18 @@
             </div>
         </section>
     </main>
+
+    <!-- Game Over Modal -->
+    <div id="gameModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🎉 꿀떡 수확 완료! 🎉</h2>
+            <p>20번의 수확이 모두 끝났습니다.</p>
+            <div class="modal-score" id="modalScore">
+                총 수확: 0개
+            </div>
+            <button id="modalRestartBtn" class="modal-btn">다시 하기</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
