@@ -17,50 +17,56 @@
     <canvas id="confetti-canvas"></canvas>
 
     <main class="game-wrapper">
-        <header class="game-header">
-            <h1 class="pixel-title">숲속 떡토끼의<br>꿀떡 창고</h1>
-            <div class="count-badge">
-                <span id="remainingCount">🍡 40/40</span>
-            </div>
-        </header>
+        <!-- LEFT PANEL: Header + Bag + Rabbit -->
+        <section class="game-left">
+            <header class="game-header">
+                <h1 class="pixel-title">숲속 떡토끼의<br>꿀떡 창고</h1>
+                <div class="count-badge">
+                    <span id="remainingCount">🍡 40/40</span>
+                </div>
+            </header>
 
-        <section class="center-stage">
-            <div class="character-area">
-                <img src="images/cute_rabbit.webp" alt="Cute Rabbit" class="rabbit-img" id="rabbit">
-            </div>
+            <section class="center-stage">
+                <div class="character-area">
+                    <img src="images/cute_rabbit.webp" alt="Cute Rabbit" class="rabbit-img" id="rabbit">
+                </div>
 
-            <div class="bag-area" id="bagBtn">
-                <div class="lucky-bag">
-                    <div class="bag-body">
-                        <div class="bag-crease"></div>
-                        <div class="bag-symbol">福</div>
+                <div class="bag-area" id="bagBtn">
+                    <div class="lucky-bag">
+                        <div class="bag-body">
+                            <div class="bag-crease"></div>
+                            <div class="bag-symbol">福</div>
+                        </div>
+                        <div class="bag-neck"></div>
+                        <div class="bag-top"></div>
+                        <div class="bag-string-left"></div>
+                        <div class="bag-string-right"></div>
                     </div>
-                    <div class="bag-neck"></div>
-                    <div class="bag-top"></div>
-                    <div class="bag-string-left"></div>
-                    <div class="bag-string-right"></div>
+                    <div class="click-hint">꾸욱 누르기!</div>
                 </div>
-                <div class="click-hint">꾸욱 누르기!</div>
-            </div>
+            </section>
         </section>
 
-        <section class="bottom-dashboard">
-            <div class="result-panel">
-                <h3>방금 뽑은 떡</h3>
-                <div class="big-tile-slot">
-                    <div class="tile hidden" id="currentTile">?</div>
+        <!-- RIGHT PANEL: Result + History + Reset -->
+        <section class="game-right">
+            <div class="bottom-dashboard">
+                <div class="result-panel">
+                    <h3>방금 뽑은 떡</h3>
+                    <div class="big-tile-slot">
+                        <div class="tile hidden" id="currentTile">?</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="history-panel">
-                <h3>모은 떡 접시</h3>
-                <div class="history-track" id="historyGrid">
-                    <!-- History tiles go here -->
+                <div class="history-panel">
+                    <h3>모은 떡 접시</h3>
+                    <div class="history-track" id="historyGrid">
+                        <!-- History tiles go here -->
+                    </div>
                 </div>
+
+                <button id="resetBtn" class="reset-link">창고 정리하기 (Reset)</button>
             </div>
         </section>
-
-        <button id="resetBtn" class="reset-link">창고 정리하기 (Reset)</button>
     </main>
 
     <script src="script.js"></script>
