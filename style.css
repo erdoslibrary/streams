@@ -59,6 +59,13 @@ body {
     line-height: 1.2;
 }
 
+.count-badge {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-brown);
+    margin-top: 0.5rem;
+}
+
 /* Main Wrapper - Split Layout on Desktop */
 .game-wrapper {
     width: 95%;
