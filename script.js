@@ -86,6 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
         initGame();
     });
 
+    // Close modal on ESC (without resetting)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+        }
+    });
+
     function initGame() {
         bag = generateTiles();
         isDrawing = false;
