@@ -14,6 +14,8 @@
 
 🔗 **Demo**: [https://erdoslibrary.github.io/streams/](https://erdoslibrary.github.io/streams/)
 
+🔗 **blog**: [놀기 위한 공부](https://velog.io/@erdosnumber0/streams-%ED%83%80%EC%9D%BC-%EB%BD%91%EA%B8%B0)
+
 ---
 ## 🧧 제작 배경 (Background)
 
